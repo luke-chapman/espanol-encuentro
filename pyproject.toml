@@ -7,11 +7,11 @@ name = "espanol-encuentro"
 dynamic = ["version"]
 description = ''
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.12"
 license = "MIT"
 keywords = []
 authors = [
-  { name = "U.N. Owen", email = "void@some.where" },
+  { name = "Luke Chapman", email = "lrrchapman@gmail.com" },
 ]
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -25,16 +25,18 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
-  "click",
+  "pydantic>=2.8",
+  "click>=8.1",
 ]
 
 [project.urls]
-Documentation = "https://github.com/U.N. Owen/espanol-encuentro#readme"
-Issues = "https://github.com/U.N. Owen/espanol-encuentro/issues"
-Source = "https://github.com/U.N. Owen/espanol-encuentro"
+Documentation = "https://github.com/luke-chapman/espanol-encuentro#readme"
+Issues = "https://github.com/luke-chapman/espanol-encuentro/issues"
+Source = "https://github.com/luke-chapman/espanol-encuentro"
 
 [project.scripts]
 espanol-encuentro = "espanol_encuentro.cli:espanol_encuentro"
+ee = "espanol_encuentro.cli:espanol_encuentro"
 
 [tool.hatch.version]
 path = "src/espanol_encuentro/__about__.py"
@@ -45,22 +47,3 @@ extra-dependencies = [
 ]
 [tool.hatch.envs.types.scripts]
 check = "mypy --install-types --non-interactive {args:src/espanol_encuentro tests}"
-
-[tool.coverage.run]
-source_pkgs = ["espanol_encuentro", "tests"]
-branch = true
-parallel = true
-omit = [
-  "src/espanol_encuentro/__about__.py",
-]
-
-[tool.coverage.paths]
-espanol_encuentro = ["src/espanol_encuentro", "*/espanol-encuentro/src/espanol_encuentro"]
-tests = ["tests", "*/espanol-encuentro/tests"]
-
-[tool.coverage.report]
-exclude_lines = [
-  "no cov",
-  "if __name__ == .__main__.:",
-  "if TYPE_CHECKING:",
-]
