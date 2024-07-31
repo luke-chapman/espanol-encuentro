@@ -24,13 +24,16 @@ def main() -> None:
     add_parser.add_argument("--related-words", "-r", nargs="*")
 
     args = parser.parse_args()
-    if args.mode == "lookup":
-        pass
-    elif args.mode == "add":
-        filename = args.filename or default_filename()
-        print(f"Will write file to {filename}")
-        entries = read_yaml_entries(filename) if filename.exists() else []
 
+    filename = args.filename or default_filename()
+    entries = read_yaml_entries(filename) if filename.exists() else []
+
+    if args.mode == "lookup":
+        words = [e for e in entries if e.word.lower() == args.word.lower()]
+        print(f"Found {len(words)} entries for '{args.word}'")
+        for w in words:
+            print(f"\n{w}")
+    elif args.mode == "add":
         entry = Entry(
             word=args.word,
             part_of_speech=args.part_of_speech or "",

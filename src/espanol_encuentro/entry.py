@@ -15,6 +15,9 @@ class Entry(BaseModel):
     examples: list[str] = Field(default_factory=list)
     related_words: list[str] = Field(default_factory=list)
 
+    def __str__(self) -> str:
+        return yaml.safe_dump(self.model_dump(exclude_defaults=True), sort_keys=False)
+
 
 def read_yaml_entries(filename: Path) -> list[Entry]:
     with filename.open() as f:
