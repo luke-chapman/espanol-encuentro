@@ -1,14 +1,12 @@
 import sys
 from argparse import ArgumentParser
-from pathlib import Path
 from typing import get_args
 
-from espanol_encuentro.entry import PartOfSpeech, default_filename, read_yaml_entries, Entry, write_yaml_entries
+from espanol_encuentro.entry import PartOfSpeech, default_words_directory, Entry, write_yaml_entries, get_entries
 
 
 def main() -> None:
     parser = ArgumentParser()
-    parser.add_argument("--filename", type=Path, help="Override to the location of the yaml lookup file")
     parser.add_argument("word", help="The Spanish word to lookup")
 
     subparsers = parser.add_subparsers(dest="mode")
@@ -21,13 +19,12 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    filename = args.filename or default_filename()
-    entries = read_yaml_entries(filename) if filename.exists() else []
+    directory = default_words_directory()
+    directory.mkdir(parents=True, exist_ok=True)
+    entries = get_entries(directory, args.word)
 
     if not args.mode:
-        words = [e for e in entries if e.word.lower() == args.word.lower()]
-        print(f"Found {len(words)} entries for '{args.word}'")
-        for w in words:
+        for w in entries:
             print(f"\n{w}")
     elif args.mode == "add":
         entry = Entry(
@@ -38,10 +35,12 @@ def main() -> None:
             examples=args.examples or [],
             related_words=args.related_words or [],
         )
+        if len(entries) > 0:
+            print(f"{len(entries)} entries already exist for '{args.word}'; appending new entry")
         entries.append(entry)
         entries = sorted(e.format() for e in entries)
-        write_yaml_entries(entries=entries, filename=filename)
-        print(f"Successfully added word {entry.word} to the lookup file")
+        write_yaml_entries(entries=entries, filename=directory / f"{args.word}.yaml")
+        print(f"Successfully added an entry for '{entry.word}' to the lookup file")
     else:
         raise ValueError(f"Invalid mode {args.mode}")
 
