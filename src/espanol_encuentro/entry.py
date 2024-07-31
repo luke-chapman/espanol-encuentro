@@ -36,4 +36,4 @@ def write_yaml_entries(entries: list[Entry], filename: Path) -> None:
 
 
 def default_filename() -> Path:
-    return Path(__file__).resolve().parent.parent.parent / "data" / "words.yaml"
+    return Path(__file__).resolve().parent.parent.parent / "words.yaml"
