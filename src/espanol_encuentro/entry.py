@@ -22,6 +22,13 @@ class Entry(BaseModel):
     def __str__(self) -> str:
         return _yaml_dump(self.model_dump(exclude_defaults=True))
 
+    def __lt__(self, other):
+        return (self.word, self.part_of_speech, self.short_definition) < (other.word, other.part_of_speech, other.short_definition)
+
+    def format(self) -> "Entry":
+        update = {"examples": sorted(self.examples), "related_words": sorted(self.related_words)}
+        return self.model_copy(update=update)
+
 
 def read_yaml_entries(filename: Path) -> list[Entry]:
     with filename.open() as f:

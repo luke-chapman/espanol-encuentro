@@ -1,6 +1,15 @@
 - word: borrar
   part_of_speech: verb
   short_definition: to delete
+- word: encerrar
+  part_of_speech: verb
+  short_definition: To lock up
+  examples:
+  - Encierre la puerta, por favor
+  - Fue encerrado en el carcel
+  related_words:
+  - cerrar
+  - llave
 - word: llover
   part_of_speech: verb
   short_definition: to rain
@@ -12,6 +21,14 @@
   part_of_speech: noun_f
   short_definition: rain
   examples:
-  - "¿eschucaste la lluvia anoche?"
+  - ¿eschucaste la lluvia anoche?
   related_words:
   - llover
+- word: realizado
+  part_of_speech: adjective
+  short_definition: Fulfilled
+  examples:
+  - Aprender el espa�ol me puse realizado
+  related_words:
+  - realizar
+  - satisfecho

@@ -36,11 +36,10 @@ def main() -> None:
             short_definition=args.short_definition or "",
             long_definition=args.long_definition or [],
             examples=args.examples or [],
-            related_words=args.related_words or []
+            related_words=args.related_words or [],
         )
         entries.append(entry)
-        entries = sorted(entries, key=lambda e: (e.word, e.part_of_speech, e.short_definition))
-
+        entries = sorted(e.format() for e in entries)
         write_yaml_entries(entries=entries, filename=filename)
         print(f"Successfully added word {entry.word} to the lookup file")
     else:
