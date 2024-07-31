@@ -13,8 +13,8 @@ def main() -> None:
 
     subparsers = parser.add_subparsers(dest="mode")
     add_parser = subparsers.add_parser("add")
-    add_parser.add_argument("--part-of-speech", "-p", choices=get_args(PartOfSpeech))
-    add_parser.add_argument("--short-definition", "-s")
+    add_parser.add_argument("--part-of-speech", "-p", choices=get_args(PartOfSpeech), required=True)
+    add_parser.add_argument("--short-definition", "-s", required=True)
     add_parser.add_argument("--long-definition", "-l", nargs="*")
     add_parser.add_argument("--examples", "-e", nargs="*")
     add_parser.add_argument("--related-words", "-r", nargs="*")
@@ -32,8 +32,8 @@ def main() -> None:
     elif args.mode == "add":
         entry = Entry(
             word=args.word,
-            part_of_speech=args.part_of_speech or "",
-            short_definition=args.short_definition or "",
+            part_of_speech=args.part_of_speech,
+            short_definition=args.short_definition,
             long_definition=args.long_definition or [],
             examples=args.examples or [],
             related_words=args.related_words or [],

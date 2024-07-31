@@ -1,3 +1,18 @@
+- word: aguja
+  part_of_speech: noun_f
+  short_definition: needle
+  examples:
+  - Tengo el miedo a las agujas
+- word: araña
+  part_of_speech: noun_f
+  short_definition: spider
+  examples:
+  - Como un niño tenía el miedo a las arañas
+- word: asco
+  part_of_speech: noun_m
+  short_definition: disgust
+  examples:
+  - el racismo me da asco
 - word: borrar
   part_of_speech: verb
   short_definition: to delete
@@ -32,3 +47,6 @@
   related_words:
   - realizar
   - satisfecho
+- word: superar
+  part_of_speech: verb
+  short_definition: to overcome

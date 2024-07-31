@@ -13,8 +13,8 @@ def _yaml_dump(item: Any) -> str:
 
 class Entry(BaseModel):
     word: str
-    part_of_speech: PartOfSpeech = ""
-    short_definition: str = ""
+    part_of_speech: PartOfSpeech
+    short_definition: str
     long_definition: list[str] = Field(default_factory=list)
     examples: list[str] = Field(default_factory=list)
     related_words: list[str] = Field(default_factory=list)
@@ -43,7 +43,7 @@ def write_yaml_entries(entries: list[Entry], filename: Path) -> None:
     yaml_contents = _yaml_dump(model)
     filename.parent.mkdir(parents=True, exist_ok=True)
     filename.write_text(yaml_contents)
-    print(f"Wrote {len(entries)} to {filename}")
+    print(f"Wrote {len(entries)} entries to {filename}")
 
 
 def default_filename() -> Path:
