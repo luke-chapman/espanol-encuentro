@@ -36,8 +36,8 @@ Issues = "https://github.com/luke-chapman/espanol-encuentro/issues"
 Source = "https://github.com/luke-chapman/espanol-encuentro"
 
 [project.scripts]
-espanol-encuentro = "espanol_encuentro.cli:espanol_encuentro"
-ee = "espanol_encuentro.cli:espanol_encuentro"
+espanol-encuentro = "espanol_encuentro.__main__:main"
+ee = "espanol_encuentro.__main__:main"
 
 [tool.hatch.version]
 path = "src/espanol_encuentro/__about__.py"

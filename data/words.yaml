@@ -1,0 +1,14 @@
+- word: llover
+  part_of_speech: verb
+  short_definition: to rain
+  examples:
+  - llueve (it's raining)
+  related_words:
+  - lluvia
+- word: lluvia
+  part_of_speech: noun_f
+  short_definition: rain
+  examples:
+  - "\xBFeschucaste la lluvia anoche?"
+  related_words:
+  - llover
