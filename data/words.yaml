@@ -1,3 +1,6 @@
+- word: borrar
+  part_of_speech: verb
+  short_definition: to delete
 - word: llover
   part_of_speech: verb
   short_definition: to rain
