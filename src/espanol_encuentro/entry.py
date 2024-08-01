@@ -4,7 +4,7 @@ import yaml
 from pydantic import BaseModel, Field
 from typing import Any, Literal
 
-PartOfSpeech = Literal["noun_f", "noun_m", "verb", "adjective", ""]
+PartOfSpeech = Literal["noun_f", "noun_m", "verb", "adjective"]
 
 
 def _yaml_dump(item: Any) -> str:
@@ -34,7 +34,6 @@ def read_yaml_entries(filename: Path) -> list[Entry]:
     with filename.open() as f:
         model = yaml.safe_load(f)
     entries = [Entry.model_validate(m) for m in model]
-    print(f"Found {len(entries)} entries from {filename}")
     return entries
 
 
