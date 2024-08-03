@@ -1,6 +1,6 @@
 # espanol-encuentro
 
-**espanol-encuentro** lets you build a dictionary from one language to another, e.g. from Spanish to English. It's intended as a tool to help a user grow their vocabulary in a foreign language.
+**espanol-encuentro** lets you build a dictionary from one language to another, e.g. from Spanish to English. It's intended as a tool to help you grow your vocabulary in a foreign language.
 
 ## Installation
 `espanol-encuentro` is currently installed by cloning the source code and doing an editable installation into a virtual environment:
