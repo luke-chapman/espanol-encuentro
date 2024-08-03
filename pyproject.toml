@@ -5,24 +5,11 @@ build-backend = "hatchling.build"
 [project]
 name = "espanol-encuentro"
 dynamic = ["version"]
-description = ''
+description = 'Build your own Spanish dictionary'
 readme = "README.md"
 requires-python = ">=3.12"
-license = "MIT"
-keywords = []
 authors = [
   { name = "Luke Chapman", email = "lrrchapman@gmail.com" },
-]
-classifiers = [
-  "Development Status :: 4 - Beta",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: Implementation :: CPython",
-  "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
   "pydantic>=2.8",

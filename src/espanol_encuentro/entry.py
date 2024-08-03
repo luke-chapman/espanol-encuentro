@@ -45,10 +45,6 @@ def write_yaml_entries(entries: list[Entry], filename: Path) -> None:
     print(f"Wrote {len(entries)} entries to {filename}")
 
 
-def default_words_directory() -> Path:
-    return Path(__file__).resolve().parent.parent.parent / "words"
-
-
 def get_entries(directory: Path, word: str) -> list[Entry]:
     filename = directory / f"{word}.yaml"
     return read_yaml_entries(filename) if filename.is_file() else []
