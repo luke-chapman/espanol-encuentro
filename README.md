@@ -1,21 +1,57 @@
 # espanol-encuentro
 
-[![PyPI - Version](https://img.shields.io/pypi/v/espanol-encuentro.svg)](https://pypi.org/project/espanol-encuentro)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/espanol-encuentro.svg)](https://pypi.org/project/espanol-encuentro)
-
------
-
-## Table of Contents
-
-- [Installation](#installation)
-- [License](#license)
+**espanol-encuentro** lets you build a dictionary from one language to another, e.g. from Spanish to English. It's intended as a tool to help a user grow their vocabulary in a foreign language.
 
 ## Installation
+`espanol-encuentro` is currently installed by cloning the source code and doing an editable installation into a virtual environment:
+```
+git clone https://github.com/luke-chapman/espanol-encuentro
+pip install -e espanol-encuentro
+```
+The app is then invoked from the command line with a command starting:
+```
+# Commands begin with 'espanol-encuentro'
+espanol-encuentro list
 
-```console
-pip install espanol-encuentro
+# Or they can begin with the shorter 'ee'
+ee list
+```
+## How to use it
+### list
+List all words, or a filtered subset
+```
+ee list
+ee list --starting-with ll --part-of-speech noun_m noun_f
 ```
 
-## License
+### lookup
+Lookup the word 'lluvia' in the dictionary
+```
+ee lookup lluvia
+```
 
-`espanol-encuentro` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+### delete
+Delete a word from the dictionary
+```
+ee delete lluvia
+```
+
+### add
+Add a word to the dictionary
+```
+# Full command line options
+ee add lluvia --part-of-speech noun_f --short-definition rain --examples "¿eschucaste la lluvia anoche?" --related-words llover
+
+# Shorthand
+ee add lluvia -p noun_f -s rain -e "¿eschucaste la lluvia anoche?" -r llover
+```
+
+## Development
+This project uses `hatch` to structure the project. Hatch invokes `ruff`, `mypy` and `black` for linting and `pytest` for testing.
+
+Some useful commands are:
+```
+hatch run lint
+hatch run format
+hatch run test
+```
