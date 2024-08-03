@@ -39,12 +39,13 @@ def read_yaml_entries(filename: Path) -> list[Entry]:
     return entries
 
 
-def write_yaml_entries(entries: list[Entry], filename: Path) -> None:
+def write_yaml_entries(entries: list[Entry], filename: Path, verbose: bool = True) -> None:
     model = [e.model_dump(exclude_defaults=True) for e in entries]
     yaml_contents = _yaml_dump(model)
     filename.parent.mkdir(parents=True, exist_ok=True)
     filename.write_text(yaml_contents)
-    print(f"Wrote {len(entries)} entries to {filename}")
+    if verbose:
+        print(f"Wrote {len(entries)} entries to {filename}")
 
 
 def get_entries(directory: Path, word: str) -> list[Entry]:

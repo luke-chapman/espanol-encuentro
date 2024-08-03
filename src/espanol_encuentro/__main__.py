@@ -4,7 +4,7 @@ from typing import get_args
 
 from espanol_encuentro.constants import words_directory
 from espanol_encuentro.entry import PartOfSpeech
-from espanol_encuentro.operations import add, delete, do_list, lookup, modify
+from espanol_encuentro.operations import add, delete, do_list, lookup, modify, sanitise
 
 
 def main() -> int:
@@ -78,7 +78,7 @@ def main() -> int:
             related_words=args.related_words or [],
         )
     elif args.mode == "sanitise":
-        pass
+        sanitise(directory)
     else:
         raise ValueError(f"Invalid mode '{args.mode}'")
 
