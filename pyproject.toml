@@ -34,22 +34,35 @@ lint = [
   "ruff check",
   "mypy --install-types --non-interactive ."
 ]
-format = "ruff check --fix"
+format = "ruff check --fix --unsafe-fixes"
 
 [tool.hatch.envs.default]
 dependencies = [
   "mypy>=1.0.0",
-  "ruff>=0.5.6"
+  "ruff>=0.5.6",
+  "black"
 ]
 
 [tool.ruff]
 lint.select = [
+  "A",
+  "ARG",
+  "B",
   "C",
+  "C4",
+  "COM",
   "E",
+  "ERA",
   "F",
   "I",
+  "N",
+  "PTH",
+  "RUF",
   "W",
   "UP",
 ]
 line-length = 120
 target-version = "py312"
+
+[tool.mypy]
+python_version = "3.12"
