@@ -4,10 +4,10 @@ from typing import get_args
 
 from espanol_encuentro.constants import words_directory
 from espanol_encuentro.entry import PartOfSpeech
-from espanol_encuentro.operations import lookup, delete, do_list, add
+from espanol_encuentro.operations import add, delete, do_list, lookup
 
 
-def main() -> None:
+def main() -> int:
     parser = ArgumentParser()
     subparsers = parser.add_subparsers(dest="mode")
 
@@ -47,6 +47,8 @@ def main() -> None:
         delete(directory, args.word)
     else:
         raise ValueError(f"Invalid mode '{args.mode}'")
+
+    return 0
 
 
 if __name__ == "__main__":

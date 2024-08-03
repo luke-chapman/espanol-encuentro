@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from espanol_encuentro.entry import get_entries, Entry, write_yaml_entries
+from espanol_encuentro.entry import Entry, PartOfSpeech, get_entries, write_yaml_entries
 
 
 def lookup(directory: Path, word: str) -> None:
@@ -9,11 +9,11 @@ def lookup(directory: Path, word: str) -> None:
         print(f"\n{w}")
 
 
-def add(directory: Path, word: str, part_of_speech: str,
-        short_definition: str, long_definition: list[str], examples: list[str], related_words: str) -> None:
+def add(directory: Path, word: str, part_of_speech: PartOfSpeech,
+        short_definition: str, long_definition: list[str], examples: list[str], related_words: list[str]) -> None:
     entries = get_entries(directory, word)
     if not short_definition and not long_definition:
-        raise ValueError(f"Must provide either a --short-definition or a --long-definition")
+        raise ValueError("Must provide either a --short-definition or a --long-definition")
     entry = Entry(
         word=word,
         part_of_speech=part_of_speech,

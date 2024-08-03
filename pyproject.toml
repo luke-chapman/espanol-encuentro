@@ -29,9 +29,27 @@ ee = "espanol_encuentro.__main__:main"
 [tool.hatch.version]
 path = "src/espanol_encuentro/__about__.py"
 
-[tool.hatch.envs.types]
-extra-dependencies = [
-  "mypy>=1.0.0",
+[tool.hatch.envs.default.scripts]
+lint = [
+  "ruff check",
+  "mypy --install-types --non-interactive ."
 ]
-[tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/espanol_encuentro tests}"
+format = "ruff check --fix"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "mypy>=1.0.0",
+  "ruff>=0.5.6"
+]
+
+[tool.ruff]
+lint.select = [
+  "C",
+  "E",
+  "F",
+  "I",
+  "W",
+  "UP",
+]
+line-length = 120
+target-version = "py312"

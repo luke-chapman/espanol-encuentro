@@ -1,8 +1,8 @@
 from pathlib import Path
+from typing import Any, Literal
 
 import yaml
 from pydantic import BaseModel, Field
-from typing import Any, Literal
 
 PartOfSpeech = Literal["noun_f", "noun_m", "verb", "adjective"]
 
@@ -23,7 +23,8 @@ class Entry(BaseModel):
         return _yaml_dump(self.model_dump(exclude_defaults=True))
 
     def __lt__(self, other):
-        return (self.word, self.part_of_speech, self.short_definition) < (other.word, other.part_of_speech, other.short_definition)
+        return ((self.word, self.part_of_speech, self.short_definition) <
+                (other.word, other.part_of_speech, other.short_definition))
 
     def format(self) -> "Entry":
         update = {"examples": sorted(self.examples), "related_words": sorted(self.related_words)}
