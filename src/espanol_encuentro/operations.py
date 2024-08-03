@@ -57,3 +57,36 @@ def delete(directory: Path, word: str) -> None:
         print(f"Deleted entry for '{word}' in file {filename}")
     else:
         print(f"No entry for '{word}' found")
+
+
+def modify(
+    directory: Path,
+    word: str,
+    index: int,
+    part_of_speech: PartOfSpeech | None,
+    short_definition: str,
+    long_definition: list[str],
+    examples: list[str],
+    related_words: list[str],
+) -> None:
+    entries = get_entries(directory, word)
+    if len(entries) == 0:
+        print(f"No entries found for word '{word}'; nothing to modify")
+        return
+    if index < 0 or index >= len(entries):
+        print(f"Cannot modify entry with index {index} for word '{word}' with {len(entries)} entries")
+        return
+
+    entry = entries[index]
+    if part_of_speech:
+        entry = entry.model_copy(update={"part_of_speech": part_of_speech})
+    if short_definition:
+        entry = entry.model_copy(update={"short_definition": short_definition})
+
+    entry.long_definition.extend(long_definition)
+    entry.examples.extend(examples)
+    entry.related_words.extend(related_words)
+
+    entries[index] = entry.format()
+
+    write_yaml_entries(entries, directory / f"{word}.yaml")
