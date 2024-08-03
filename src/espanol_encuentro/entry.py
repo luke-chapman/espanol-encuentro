@@ -23,8 +23,9 @@ class Entry(BaseModel):
         return _yaml_dump(self.model_dump(exclude_defaults=True))
 
     def __lt__(self, other):
-        return ((self.word, self.part_of_speech, self.short_definition) <
-                (other.word, other.part_of_speech, other.short_definition))
+        tuple_self = (self.word, self.part_of_speech, self.short_definition)
+        tuple_other = (other.word, other.part_of_speech, other.short_definition)
+        return tuple_self < tuple_other
 
     def format(self) -> "Entry":
         update = {"examples": sorted(self.examples), "related_words": sorted(self.related_words)}

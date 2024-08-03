@@ -14,7 +14,6 @@ authors = [
 dependencies = [
   "pydantic>=2.8",
   "pyyaml>=6.0",
-  "click>=8.1",
 ]
 
 [project.urls]
@@ -34,35 +33,40 @@ lint = [
   "ruff check",
   "mypy --install-types --non-interactive ."
 ]
-format = "ruff check --fix --unsafe-fixes"
+format = [
+  "black src tests",
+  "ruff check --fix --unsafe-fixes"
+]
 
 [tool.hatch.envs.default]
 dependencies = [
   "mypy>=1.0.0",
   "ruff>=0.5.6",
-  "black"
+  "black>=24.8.0",
 ]
 
 [tool.ruff]
 lint.select = [
-  "A",
-  "ARG",
-  "B",
-  "C",
-  "C4",
-  "COM",
+  # pycodestyle
   "E",
-  "ERA",
+  # Pyflakes
   "F",
-  "I",
-  "N",
-  "PTH",
-  "RUF",
-  "W",
+  # pyupgrade
   "UP",
+  # flake8-bugbear
+  "B",
+  # flake8-simplify
+  "SIM",
+  # isort
+  "I",
 ]
 line-length = 120
 target-version = "py312"
+
+[tool.black]
+line-length = 120
+target-version = ["py312"]
+skip-magic-trailing-comma = true
 
 [tool.mypy]
 python_version = "3.12"

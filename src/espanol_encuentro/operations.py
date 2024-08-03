@@ -9,8 +9,15 @@ def lookup(directory: Path, word: str) -> None:
         print(f"\n{w}")
 
 
-def add(directory: Path, word: str, part_of_speech: PartOfSpeech,
-        short_definition: str, long_definition: list[str], examples: list[str], related_words: list[str]) -> None:
+def add(
+    directory: Path,
+    word: str,
+    part_of_speech: PartOfSpeech,
+    short_definition: str,
+    long_definition: list[str],
+    examples: list[str],
+    related_words: list[str],
+) -> None:
     entries = get_entries(directory, word)
     if not short_definition and not long_definition:
         raise ValueError("Must provide either a --short-definition or a --long-definition")

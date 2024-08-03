@@ -36,8 +36,15 @@ def main() -> int:
     if args.mode == "lookup":
         lookup(directory, args.word)
     elif args.mode == "add":
-        add(directory=directory, word=args.word, part_of_speech=args.part_of_speech, short_definition=args.short_definition or "",
-            long_definition=args.long_definition or [],                examples=args.examples or [], related_words=args.related_words or [])
+        add(
+            directory=directory,
+            word=args.word,
+            part_of_speech=args.part_of_speech,
+            short_definition=args.short_definition or "",
+            long_definition=args.long_definition or [],
+            examples=args.examples or [],
+            related_words=args.related_words or [],
+        )
     elif args.mode == "list":
         do_list(directory, args.starts_with or "", args.part_of_speech or [])
     elif args.mode == "delete":
