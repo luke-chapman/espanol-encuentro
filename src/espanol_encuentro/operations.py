@@ -20,8 +20,6 @@ def add(
     related_words: list[str],
 ) -> None:
     entries = get_entries(directory, word)
-    if not short_definition and not long_definition:
-        raise ValueError("Must provide either a --short-definition or a --long-definition")
     entry = Entry(
         word=word,
         part_of_speech=part_of_speech,
@@ -44,7 +42,7 @@ def do_list(directory: Path, starts_with: str, part_of_speech: list[str]) -> Non
         words = [w for w in words if w.startswith(starts_with)]
     if part_of_speech:
         words = [w for w in words if any(e.part_of_speech in part_of_speech for e in get_entries(directory, w))]
-    print(f"Found {len(words)} matching criteria")
+    print(f"Found {len(words)} words matching criteria")
     print("")
     for word in words:
         print(word)

@@ -14,7 +14,7 @@ def _yaml_dump(item: Any) -> str:
 class Entry(BaseModel):
     word: str
     part_of_speech: PartOfSpeech
-    short_definition: str = ""
+    short_definition: str
     long_definition: list[str] = Field(default_factory=list)
     examples: list[str] = Field(default_factory=list)
     related_words: list[str] = Field(default_factory=list)
