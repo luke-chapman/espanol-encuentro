@@ -7,7 +7,6 @@ import yaml
 
 def run():
     parser = ArgumentParser()
-    parser.add_argument("--words-dir", type=Path, help="Directory containing yaml files for each word")
 
     subparsers = parser.add_subparsers(dest="mode")
 
@@ -25,8 +24,10 @@ def run():
     delete_parser = subparsers.add_parser("delete")
     delete_parser.add_argument("word", help="The Spanish word to delete")
 
+    parser.add_argument("--words-dir", type=Path, help="Directory containing yaml files for each word")
     args = parser.parse_args()
-    words_dir = args.word_dir or Path(__file__).resolve().parent / "words"
+
+    words_dir = args.words_dir or Path(__file__).resolve().parent / "words"
     words_dir.mkdir(parents=True, exist_ok=True)
 
     if args.mode == "lookup":

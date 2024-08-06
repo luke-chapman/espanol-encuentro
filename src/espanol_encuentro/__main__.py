@@ -11,7 +11,6 @@ from espanol_encuentro.operations import add, delete, do_list, lookup, modify, s
 def main() -> int:
     parser = ArgumentParser()
     subparsers = parser.add_subparsers(dest="mode")
-    parser.add_argument("--words-dir", type=Path, help="Directory containing yaml files for each word")
 
     lookup_parser = subparsers.add_parser("lookup")
     lookup_parser.add_argument("word", help="The Spanish word to lookup")
@@ -47,6 +46,7 @@ def main() -> int:
 
     _ = subparsers.add_parser("sanitise")
 
+    parser.add_argument("--words-dir", type=Path, help="Directory containing yaml files for each word")
     args = parser.parse_args()
 
     directory = args.words_dir or default_words_directory()
@@ -58,7 +58,7 @@ def main() -> int:
             directory=directory,
             word=args.word,
             part_of_speech=args.part_of_speech,
-            short_definition=args.short_definition or "",
+            short_definition=args.short_definition,
             long_definition=args.long_definition or [],
             examples=args.examples or [],
             related_words=args.related_words or [],
