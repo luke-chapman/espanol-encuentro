@@ -27,9 +27,19 @@ class Entry(BaseModel):
         tuple_other = (other.word, other.part_of_speech, other.short_definition)
         return tuple_self < tuple_other
 
+    @staticmethod
+    def __strip_quotes(raw: str) -> str:
+        return raw.strip("\"'")
+
     def format(self) -> "Entry":
-        update = {"examples": sorted(self.examples), "related_words": sorted(self.related_words)}
-        return self.model_copy(update=update)
+        return Entry(
+            word=self.word,
+            part_of_speech=self.part_of_speech,
+            short_definition=self.short_definition.strip("\"'"),
+            long_definition=sorted(s.strip("\"'") for s in self.long_definition),
+            examples=sorted(s.strip("\"'") for s in self.examples),
+            related_words=sorted(s.strip("\"'") for s in self.related_words),
+        )
 
 
 def read_yaml_entries(filename: Path) -> list[Entry]:

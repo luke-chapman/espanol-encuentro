@@ -17,6 +17,9 @@ def run():
     add_parser.add_argument("word", help="The Spanish word to lookup")
     add_parser.add_argument("--part-of-speech", "-p", required=True)
     add_parser.add_argument("--short-definition", "-s", required=True)
+    add_parser.add_argument("--long-definition", "-l", nargs="*")
+    add_parser.add_argument("--examples", "-e", nargs="*")
+    add_parser.add_argument("--related-words", "-r", nargs="*")
 
     list_parser = subparsers.add_parser("list")
     list_parser.add_argument("--starts-with", "-s")
@@ -42,6 +45,13 @@ def run():
             "part_of_speech": args.part_of_speech,
             "short_definition": args.short_definition,
         }
+        if args.long_definition:
+            entry["long_definition"] = list(args.long_definition)
+        if args.examples:
+            entry["examples"] = list(args.examples)
+        if args.related_words:
+            entry["related_words"] = list(args.related_words)
+
         word_yaml = words_dir / f"{args.word}.yaml"
         with word_yaml.open("w") as w:
             yaml.safe_dump(entry, w, sort_keys=False, allow_unicode=True)
