@@ -1,8 +1,7 @@
+import json
 import sys
 from argparse import ArgumentParser
 from pathlib import Path
-
-import yaml
 
 
 def run():
@@ -27,16 +26,16 @@ def run():
     delete_parser = subparsers.add_parser("delete")
     delete_parser.add_argument("word", help="The Spanish word to delete")
 
-    parser.add_argument("--words-dir", type=Path, help="Directory containing yaml files for each word")
+    parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
     args = parser.parse_args()
 
     words_dir = args.words_dir or Path(__file__).resolve().parent / "words"
     words_dir.mkdir(parents=True, exist_ok=True)
 
     if args.mode == "lookup":
-        word_yaml = words_dir / f"{args.word}.yaml"
-        if word_yaml.is_file():
-            print(word_yaml.read_text())
+        word_json = words_dir / f"{args.word}.json"
+        if word_json.is_file():
+            print(word_json.read_text())
         else:
             print(f"No entry found for '{args.word}'")
     elif args.mode == "add":
@@ -52,12 +51,12 @@ def run():
         if args.related_words:
             entry["related_words"] = args.related_words
 
-        word_yaml = words_dir / f"{args.word}.yaml"
-        with word_yaml.open("w") as w:
-            yaml.safe_dump(entry, w, sort_keys=False, allow_unicode=True)
-        print(f"Wrote entry for '{args.word}' to {word_yaml}")
+        word_json = words_dir / f"{args.word}.json"
+        with word_json.open("w") as w:
+            json.dump(entry, w, indent=2, ensure_ascii=False)
+        print(f"Wrote entry for '{args.word}' to {word_json}")
     elif args.mode == "list":
-        words = sorted(d.name[:-5] for d in words_dir.iterdir() if d.suffix == ".yaml")
+        words = sorted(d.name[:-5] for d in words_dir.iterdir() if d.suffix == ".json")
         if args.starts_with:
             words = [w for w in words if w.startswith(args.starts_with)]
         print(f"Found {len(words)} words matching criteria")
@@ -66,9 +65,9 @@ def run():
             print(word)
         print("")
     elif args.mode == "delete":
-        word_yaml = words_dir / f"{args.word}.yaml"
-        if word_yaml.is_file():
-            word_yaml.unlink()
+        word_json = words_dir / f"{args.word}.json"
+        if word_json.is_file():
+            word_json.unlink()
             print(f"Deleted entry for '{args.word}'")
         else:
             print(f"No entry found for '{args.word}'")
