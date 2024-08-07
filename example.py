@@ -46,11 +46,11 @@ def run():
             "short_definition": args.short_definition,
         }
         if args.long_definition:
-            entry["long_definition"] = list(args.long_definition)
+            entry["long_definition"] = args.long_definition
         if args.examples:
-            entry["examples"] = list(args.examples)
+            entry["examples"] = args.examples
         if args.related_words:
-            entry["related_words"] = list(args.related_words)
+            entry["related_words"] = args.related_words
 
         word_yaml = words_dir / f"{args.word}.yaml"
         with word_yaml.open("w") as w:
