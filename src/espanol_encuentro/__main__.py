@@ -8,7 +8,7 @@ from espanol_encuentro.entry import PartOfSpeech
 from espanol_encuentro.operations import add, delete, do_list, lookup, modify, sanitise
 
 
-def main() -> int:
+def main(override_args: list[str] | None = None) -> int:
     parser = ArgumentParser()
     subparsers = parser.add_subparsers(dest="mode")
 
@@ -47,7 +47,7 @@ def main() -> int:
     _ = subparsers.add_parser("sanitise")
 
     parser.add_argument("--words-dir", type=Path, help="Directory containing yaml files for each word")
-    args = parser.parse_args()
+    args = parser.parse_args(override_args or sys.argv[1:])
 
     directory = args.words_dir or default_words_directory()
 
