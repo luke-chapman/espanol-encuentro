@@ -14,6 +14,7 @@ def main(override_args: list[str] | None = None) -> int:
 
     lookup_parser = subparsers.add_parser("lookup")
     lookup_parser.add_argument("word", help="The Spanish word to lookup")
+    lookup_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
 
     add_parser = subparsers.add_parser("add")
     add_parser.add_argument("word", help="The Spanish word to lookup")
@@ -21,13 +22,16 @@ def main(override_args: list[str] | None = None) -> int:
     add_parser.add_argument("--definition", "-d", required=True)
     add_parser.add_argument("--examples", "-e", nargs="*")
     add_parser.add_argument("--related-words", "-r", nargs="*")
+    add_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
 
     list_parser = subparsers.add_parser("list")
     list_parser.add_argument("--starts-with", "-d")
     list_parser.add_argument("--part-of-speech", "-p", choices=get_args(PartOfSpeech), nargs="*")
+    list_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
 
     delete_parser = subparsers.add_parser("delete")
     delete_parser.add_argument("word", help="The Spanish word to delete")
+    delete_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
 
     modify_parser = subparsers.add_parser("modify")
     modify_parser.add_argument("word", help="The Spanish word to delete")
@@ -41,10 +45,11 @@ def main(override_args: list[str] | None = None) -> int:
     modify_parser.add_argument("--definition", "-d")
     modify_parser.add_argument("--examples", "-e", nargs="*")
     modify_parser.add_argument("--related-words", "-r", nargs="*")
+    modify_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
 
-    _ = subparsers.add_parser("sanitise")
+    sanitise_parser = subparsers.add_parser("sanitise")
+    sanitise_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
 
-    parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
     args = parser.parse_args(override_args or sys.argv[1:])
 
     directory = args.words_dir or default_words_directory()

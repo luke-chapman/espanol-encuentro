@@ -11,6 +11,7 @@ def run():
 
     lookup_parser = subparsers.add_parser("lookup")
     lookup_parser.add_argument("word", help="The Spanish word to lookup")
+    lookup_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
 
     add_parser = subparsers.add_parser("add")
     add_parser.add_argument("word", help="The Spanish word to lookup")
@@ -18,14 +19,16 @@ def run():
     add_parser.add_argument("--definition", "-d", required=True)
     add_parser.add_argument("--examples", "-e", nargs="*")
     add_parser.add_argument("--related-words", "-r", nargs="*")
+    add_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
 
     list_parser = subparsers.add_parser("list")
     list_parser.add_argument("--starts-with", "-d")
+    list_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
 
     delete_parser = subparsers.add_parser("delete")
     delete_parser.add_argument("word", help="The Spanish word to delete")
+    delete_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
 
-    parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
     args = parser.parse_args()
 
     words_dir = args.words_dir or Path(__file__).resolve().parent / "words"
