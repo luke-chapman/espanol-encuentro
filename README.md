@@ -74,7 +74,9 @@ This project uses `hatch` to structure the project. Hatch invokes `ruff`, `mypy`
 
 Some useful commands are:
 ```
-hatch run lint
 hatch run format
+hatch run lint
 hatch run test
 ```
+
+The latter two of these commands are run as part of the [GitHubActions continuous integration](https://github.com/luke-chapman/espanol-encuentro/actions/workflows/python-package.yaml); code should pass these checks before hitting master.
