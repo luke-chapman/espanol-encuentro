@@ -14,8 +14,7 @@ def add(
     directory: Path,
     word: str,
     part_of_speech: PartOfSpeech,
-    short_definition: str,
-    long_definition: list[str],
+    definition: str,
     examples: list[str],
     related_words: list[str],
 ) -> None:
@@ -23,8 +22,7 @@ def add(
     entry = Entry(
         word=word,
         part_of_speech=part_of_speech,
-        short_definition=short_definition or "",
-        long_definition=long_definition or [],
+        definition=definition or "",
         examples=examples or [],
         related_words=related_words or [],
     )
@@ -63,8 +61,7 @@ def modify(
     word: str,
     index: int,
     part_of_speech: PartOfSpeech | None,
-    short_definition: str,
-    long_definition: list[str],
+    definition: str,
     examples: list[str],
     related_words: list[str],
 ) -> None:
@@ -79,10 +76,9 @@ def modify(
     entry = entries[index]
     if part_of_speech:
         entry = entry.model_copy(update={"part_of_speech": part_of_speech})
-    if short_definition:
-        entry = entry.model_copy(update={"short_definition": short_definition})
+    if definition:
+        entry = entry.model_copy(update={"definition": definition})
 
-    entry.long_definition.extend(long_definition)
     entry.examples.extend(examples)
     entry.related_words.extend(related_words)
 

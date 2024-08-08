@@ -42,20 +42,15 @@ def test_repopulate_entry(word: str, tmp_path: Path) -> None:
     entries = read_json_entries(default_words_directory() / f"{word}.json")
     for entry in entries:
         command_line = [
-            "--words-dir",
-            str(tmp_path / "words"),
             "add",
             entry.word,
             "--part-of-speech",
             entry.part_of_speech,
-            "--short-definition",
-            string_for_command_line(entry.short_definition),
+            "--definition",
+            string_for_command_line(entry.definition),
+            "--words-dir",
+            str(tmp_path / "words"),
         ]
-
-        if entry.long_definition:
-            command_line.append("--long-definition")
-            for item in entry.long_definition:
-                command_line.append(string_for_command_line(item))
 
         if entry.examples:
             command_line.append("--examples")
@@ -82,9 +77,9 @@ def test_sanitise_repo_words(tmp_path: Path) -> None:
     assert len(files) > 0
 
     command_line = [
+        "sanitise",
         "--words-dir",
         str(words_dir),
-        "sanitise",
     ]
     main(command_line)
 
@@ -103,15 +98,15 @@ def test_sanitise_repo_words(tmp_path: Path) -> None:
 def test_sanitise_example_words(tmp_path: Path) -> None:
     words_dir = tmp_path / "words"
     commands = (
-        ["comida", "-p", "noun_f", "-s", "food", "-r", "comer", "bebida"],
-        ["bebida", "-p", "noun_f", "-s", "drink"],
-        ["comer", "-p", "verb", "-s", string_for_command_line("to eat"), "-r", "beber"],
-        ["beber", "-p", "verb", "-s", string_for_command_line("to drink"), "-r", "bebida"],
+        ["add", "comida", "-p", "noun_f", "-d", "food", "-r", "comer", "bebida"],
+        ["add", "bebida", "-p", "noun_f", "-d", "drink"],
+        ["add", "comer", "-p", "verb", "-d", string_for_command_line("to eat"), "-r", "beber"],
+        ["add", "beber", "-p", "verb", "-d", string_for_command_line("to drink"), "-r", "bebida"],
+        ["sanitise"],
     )
 
     for command in commands:
-        main(["--words-dir", str(words_dir), "add"] + command)
-        main(["--words-dir", str(words_dir), "sanitise"])
+        main(command + ["--words-dir", str(words_dir)])
 
     json_files = sorted(words_dir.iterdir())
     entries = {jf.with_suffix("").name: read_json_entries(jf) for jf in json_files}

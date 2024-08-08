@@ -15,10 +15,9 @@ def run_command(command: list[str], invocation: Invocation, words_dir: Path | No
         else [sys.executable, "-m", "espanol_encuentro"]
     )
 
-    if words_dir:
-        command_prefix += ["--words-dir", str(words_dir)]
+    command_suffix = ["--words-dir", str(words_dir)] if words_dir else []
 
-    return subprocess.run(command_prefix + command, check=True, capture_output=True, text=True)
+    return subprocess.run(command_prefix + command + command_suffix, check=True, capture_output=True, text=True)
 
 
 @pytest.mark.parametrize("invocation", list(get_args(Invocation)))
@@ -38,7 +37,7 @@ def test_one_word_end_to_end(invocation: Invocation, tmp_path: Path) -> None:
             "comida",
             "--part-of-speech",
             "noun_f",
-            "--short-definition",
+            "--definition",
             "food",
             "--examples",
             "me gusta mucho la comida",
