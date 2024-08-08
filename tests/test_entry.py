@@ -11,6 +11,15 @@ def dictionary_words() -> list[str]:
     return sorted(f.name[:-5] for f in directory.iterdir() if f.suffix == ".json")
 
 
+def assert_entries_equal(expected: list[Entry], actual: list[Entry]) -> None:
+    assert len(expected) == len(actual)
+    for this, that in zip(expected, actual, strict=False):
+        if this != that:
+            print(f"{this}")
+            print(f"{that}")
+            raise AssertionError("Entries are not equal - see earlier logging for details")
+
+
 @pytest.mark.parametrize("word", dictionary_words())
 def test_serialization_roundtrip(word: str, tmp_path: Path) -> None:
     filename = default_words_directory() / f"{word}.json"
@@ -20,22 +29,11 @@ def test_serialization_roundtrip(word: str, tmp_path: Path) -> None:
     tmp_filename = tmp_path / filename.name
     write_json_entries(entries, tmp_filename)
     tmp_entries = read_json_entries(tmp_filename)
-    assert tmp_entries == entries
+    assert_entries_equal(entries, tmp_entries)
 
 
 def string_for_command_line(raw: str) -> str:
     return "'" + raw + "'" if " " in raw else raw
-
-
-def assert_entries_equal(expected: list[Entry], actual: list[Entry]) -> None:
-    assert len(expected) == len(actual)
-    for this, that in zip(expected, actual, strict=False):
-        assert this.word == that.word
-        assert this.part_of_speech == that.part_of_speech
-        assert this.short_definition == that.short_definition
-        assert this.long_definition == that.long_definition
-        assert this.examples == that.examples
-        assert this.related_words == that.related_words
 
 
 @pytest.mark.parametrize("word", dictionary_words())
