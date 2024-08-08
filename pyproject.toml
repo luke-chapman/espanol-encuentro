@@ -37,6 +37,15 @@ format = [
   "ruff check --fix --unsafe-fixes"
 ]
 test = "pytest {args: tests}"
+commit = [
+  "ee sanitise",
+  "hatch run format",
+  "hatch run lint",
+  "hatch run test",
+  "git add .",
+  "git commit -m {args}",
+  "git push -u",
+]
 
 [tool.hatch.envs.default]
 dependencies = [
