@@ -43,7 +43,7 @@ class Entry(BaseModel):
 
 
 def read_json_entries(filename: Path) -> list[Entry]:
-    with filename.open() as f:
+    with filename.open(encoding="utf-16") as f:
         model = json.load(f)
     return [Entry.model_validate(m) for m in model]
 
@@ -52,7 +52,7 @@ def write_json_entries(entries: list[Entry], filename: Path, verbose: bool = Tru
     model = [e.model_dump(exclude_defaults=True) for e in entries]
     json_contents = _json_dump(model)
     filename.parent.mkdir(parents=True, exist_ok=True)
-    filename.write_text(json_contents)
+    filename.write_text(json_contents, encoding="utf-16")
     if verbose:
         print(f"Wrote {len(entries)} entries to {filename}")
 
