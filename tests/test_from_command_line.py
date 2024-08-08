@@ -71,6 +71,21 @@ def test_one_word_end_to_end(invocation: Invocation, tmp_path: Path) -> None:
         else:
             assert "comida" not in list_output.stdout
 
+    if invocation == "app":
+        modify_command = ["modify", "comida", "--related-words", "comer", "almuerzo"]
+        run_command(modify_command, invocation, words_dir)
+        lookup_output = run_command(
+            [
+                "lookup",
+                "comida",
+            ],
+            invocation,
+            words_dir,
+        )
+        assert "related_words" in lookup_output.stdout
+        assert "comer" in lookup_output.stdout
+        assert "almuerzo" in lookup_output.stdout
+
     assert comida_json.is_file()
     run_command(["delete", "comida"], invocation, words_dir)
     assert not comida_json.exists()
