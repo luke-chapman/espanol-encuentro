@@ -35,7 +35,7 @@ def run():
     if args.mode == "lookup":
         word_json = words_dir / f"{args.word}.json"
         if word_json.is_file():
-            print(word_json.read_text())
+            print(word_json.read_text(encoding="utf-16"))
         else:
             print(f"No entry found for '{args.word}'")
     elif args.mode == "add":
@@ -52,7 +52,7 @@ def run():
             entry["related_words"] = args.related_words
 
         word_json = words_dir / f"{args.word}.json"
-        with word_json.open("w") as w:
+        with word_json.open("w", encoding="utf-16") as w:
             json.dump(entry, w, indent=2, ensure_ascii=False)
         print(f"Wrote entry for '{args.word}' to {word_json}")
     elif args.mode == "list":
