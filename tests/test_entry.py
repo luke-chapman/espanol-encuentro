@@ -74,7 +74,7 @@ def test_repopulate_entry(word: str, tmp_path: Path) -> None:
     assert_entries_equal(entries, new_entries)
 
 
-def test_sanitise(tmp_path: Path) -> None:
+def test_sanitise_repo_words(tmp_path: Path) -> None:
     words_dir = tmp_path / "words"
     copytree(default_words_directory(), words_dir)
 
@@ -90,3 +90,32 @@ def test_sanitise(tmp_path: Path) -> None:
 
     sanitised_files = sorted(words_dir.iterdir())
     assert files == sanitised_files
+
+
+# This test adds four words one by one and uses the "sanitise" command
+# to fill in the other direction of links in between them
+#
+# comida (food) ---- bebida (a drink)
+#   |                  |
+#   |                  |
+# comer (to eat) --- beber (to drink)
+#
+def test_sanitise_example_words(tmp_path: Path) -> None:
+    words_dir = tmp_path / "words"
+    commands = (
+        ["comida", "-p", "noun_f", "-s", "food", "-r", "comer", "bebida"],
+        ["bebida", "-p", "noun_f", "-s", "drink"],
+        ["comer", "-p", "verb", "-s", string_for_command_line("to eat"), "-r", "beber"],
+        ["beber", "-p", "verb", "-s", string_for_command_line("to drink"), "-r", "bebida"],
+    )
+
+    for command in commands:
+        main(["--words-dir", str(words_dir), "add"] + command)
+        main(["--words-dir", str(words_dir), "sanitise"])
+
+    json_files = sorted(words_dir.iterdir())
+    entries = {jf.with_suffix("").name: read_json_entries(jf) for jf in json_files}
+    assert entries["beber"][0].related_words == ["bebida", "comer"]
+    assert entries["bebida"][0].related_words == ["beber", "comida"]
+    assert entries["comer"][0].related_words == ["beber", "comida"]
+    assert entries["comida"][0].related_words == ["bebida", "comer"]
