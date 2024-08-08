@@ -1,4 +1,5 @@
 from pathlib import Path
+from shutil import copytree
 
 import pytest
 from espanol_encuentro.__main__ import main
@@ -71,3 +72,21 @@ def test_repopulate_entry(word: str, tmp_path: Path) -> None:
     new_file = tmp_path / "words" / f"{word}.json"
     new_entries = read_json_entries(new_file)
     assert_entries_equal(entries, new_entries)
+
+
+def test_sanitise(tmp_path: Path) -> None:
+    words_dir = tmp_path / "words"
+    copytree(default_words_directory(), words_dir)
+
+    files = sorted(words_dir.iterdir())
+    assert len(files) > 0
+
+    command_line = [
+        "--words-dir",
+        str(words_dir),
+        "sanitise",
+    ]
+    main(command_line)
+
+    sanitised_files = sorted(words_dir.iterdir())
+    assert files == sanitised_files
