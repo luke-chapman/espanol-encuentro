@@ -37,7 +37,7 @@ format = [
   "ruff check --fix --unsafe-fixes"
 ]
 test = "pytest {args: tests}"
-commit = [
+yeehaw = [
   "ee sanitise",
   "hatch run format",
   "hatch run lint",
