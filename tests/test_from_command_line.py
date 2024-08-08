@@ -20,14 +20,14 @@ def run_command(command: list[str], invocation: Invocation, words_dir: Path | No
     return subprocess.run(command_prefix + command + command_suffix, check=True, capture_output=True, text=True)
 
 
-@pytest.mark.parametrize("invocation", list(get_args(Invocation)))
+@pytest.mark.parametrize("invocation", get_args(Invocation))
 def test_help(invocation: Invocation) -> None:
     output = run_command(["--help"], invocation, None)
     for mode in ("lookup", "add", "list", "delete"):
         assert mode in output.stdout
 
 
-@pytest.mark.parametrize("invocation", list(get_args(Invocation)))
+@pytest.mark.parametrize("invocation", get_args(Invocation))
 def test_one_word_end_to_end(invocation: Invocation, tmp_path: Path) -> None:
     words_dir = tmp_path / "words"
 
