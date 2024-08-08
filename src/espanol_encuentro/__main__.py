@@ -46,7 +46,7 @@ def main(override_args: list[str] | None = None) -> int:
 
     _ = subparsers.add_parser("sanitise")
 
-    parser.add_argument("--words-dir", type=Path, help="Directory containing yaml files for each word")
+    parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
     args = parser.parse_args(override_args or sys.argv[1:])
 
     directory = args.words_dir or default_words_directory()

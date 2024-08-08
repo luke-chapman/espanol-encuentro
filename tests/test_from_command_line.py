@@ -48,8 +48,8 @@ def test_one_word_end_to_end(invocation: Invocation, tmp_path: Path) -> None:
         words_dir,
     )
 
-    comida_yaml = words_dir / "comida.yaml"
-    assert comida_yaml.is_file()
+    comida_json = words_dir / "comida.json"
+    assert comida_json.is_file()
 
     lookup_output = run_command(
         [
@@ -71,6 +71,6 @@ def test_one_word_end_to_end(invocation: Invocation, tmp_path: Path) -> None:
         else:
             assert "comida" not in list_output.stdout
 
-    assert comida_yaml.is_file()
+    assert comida_json.is_file()
     run_command(["delete", "comida"], invocation, words_dir)
-    assert not comida_yaml.exists()
+    assert not comida_json.exists()
