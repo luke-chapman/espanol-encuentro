@@ -48,14 +48,9 @@ def test_repopulate_entry(word: str, tmp_path: Path) -> None:
             entry.word,
             "--part-of-speech",
             entry.part_of_speech,
-            "--short-definition",
-            string_for_command_line(entry.short_definition),
+            "--definition",
+            string_for_command_line(entry.definition),
         ]
-
-        if entry.long_definition:
-            command_line.append("--long-definition")
-            for item in entry.long_definition:
-                command_line.append(string_for_command_line(item))
 
         if entry.examples:
             command_line.append("--examples")
@@ -103,10 +98,10 @@ def test_sanitise_repo_words(tmp_path: Path) -> None:
 def test_sanitise_example_words(tmp_path: Path) -> None:
     words_dir = tmp_path / "words"
     commands = (
-        ["comida", "-p", "noun_f", "-s", "food", "-r", "comer", "bebida"],
-        ["bebida", "-p", "noun_f", "-s", "drink"],
-        ["comer", "-p", "verb", "-s", string_for_command_line("to eat"), "-r", "beber"],
-        ["beber", "-p", "verb", "-s", string_for_command_line("to drink"), "-r", "bebida"],
+        ["comida", "-p", "noun_f", "-d", "food", "-r", "comer", "bebida"],
+        ["bebida", "-p", "noun_f", "-d", "drink"],
+        ["comer", "-p", "verb", "-d", string_for_command_line("to eat"), "-r", "beber"],
+        ["beber", "-p", "verb", "-d", string_for_command_line("to drink"), "-r", "bebida"],
     )
 
     for command in commands:

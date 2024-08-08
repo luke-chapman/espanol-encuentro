@@ -40,10 +40,10 @@ ee delete lluvia
 Add a word to the dictionary
 ```
 # Full command line options
-ee add lluvia --part-of-speech noun_f --short-definition rain --examples "¿eschucaste la lluvia anoche?" --related-words llover
+ee add lluvia --part-of-speech noun_f --definition rain --examples "¿eschucaste la lluvia anoche?" --related-words llover
 
 # Shorthand
-ee add lluvia -p noun_f -s rain -e "¿eschucaste la lluvia anoche?" -r llover
+ee add lluvia -p noun_f -d rain -e "¿eschucaste la lluvia anoche?" -r llover
 ```
 
 ## Development

@@ -14,8 +14,7 @@ def _json_dump(item: Any) -> str:
 class Entry(BaseModel):
     word: str
     part_of_speech: PartOfSpeech
-    short_definition: str
-    long_definition: list[str] = Field(default_factory=list)
+    definition: str
     examples: list[str] = Field(default_factory=list)
     related_words: list[str] = Field(default_factory=list)
 
@@ -23,8 +22,8 @@ class Entry(BaseModel):
         return _json_dump(self.model_dump(exclude_defaults=True))
 
     def __lt__(self, other):
-        tuple_self = (self.word, self.part_of_speech, self.short_definition)
-        tuple_other = (other.word, other.part_of_speech, other.short_definition)
+        tuple_self = (self.word, self.part_of_speech, self.definition)
+        tuple_other = (other.word, other.part_of_speech, other.definition)
         return tuple_self < tuple_other
 
     @staticmethod
@@ -35,8 +34,7 @@ class Entry(BaseModel):
         return Entry(
             word=self.word,
             part_of_speech=self.part_of_speech,
-            short_definition=self.short_definition.strip("\"'"),
-            long_definition=sorted(s.strip("\"'") for s in self.long_definition),
+            definition=self.definition.strip("\"'"),
             examples=sorted(s.strip("\"'") for s in self.examples),
             related_words=sorted(s.strip("\"'") for s in self.related_words),
         )

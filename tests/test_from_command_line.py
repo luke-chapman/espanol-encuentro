@@ -38,7 +38,7 @@ def test_one_word_end_to_end(invocation: Invocation, tmp_path: Path) -> None:
             "comida",
             "--part-of-speech",
             "noun_f",
-            "--short-definition",
+            "--definition",
             "food",
             "--examples",
             "me gusta mucho la comida",

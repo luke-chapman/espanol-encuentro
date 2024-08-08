@@ -18,13 +18,12 @@ def main(override_args: list[str] | None = None) -> int:
     add_parser = subparsers.add_parser("add")
     add_parser.add_argument("word", help="The Spanish word to lookup")
     add_parser.add_argument("--part-of-speech", "-p", choices=get_args(PartOfSpeech), required=True)
-    add_parser.add_argument("--short-definition", "-s", required=True)
-    add_parser.add_argument("--long-definition", "-l", nargs="*")
+    add_parser.add_argument("--definition", "-d", required=True)
     add_parser.add_argument("--examples", "-e", nargs="*")
     add_parser.add_argument("--related-words", "-r", nargs="*")
 
     list_parser = subparsers.add_parser("list")
-    list_parser.add_argument("--starts-with", "-s")
+    list_parser.add_argument("--starts-with", "-d")
     list_parser.add_argument("--part-of-speech", "-p", choices=get_args(PartOfSpeech), nargs="*")
 
     delete_parser = subparsers.add_parser("delete")
@@ -39,8 +38,7 @@ def main(override_args: list[str] | None = None) -> int:
         help="The index of the entry to modify, from within the list of entries for the word",
     )
     modify_parser.add_argument("--part-of-speech", "-p", choices=get_args(PartOfSpeech))
-    modify_parser.add_argument("--short-definition", "-s")
-    modify_parser.add_argument("--long-definition", "-l", nargs="*")
+    modify_parser.add_argument("--definition", "-d")
     modify_parser.add_argument("--examples", "-e", nargs="*")
     modify_parser.add_argument("--related-words", "-r", nargs="*")
 
@@ -58,8 +56,7 @@ def main(override_args: list[str] | None = None) -> int:
             directory=directory,
             word=args.word,
             part_of_speech=args.part_of_speech,
-            short_definition=args.short_definition,
-            long_definition=args.long_definition or [],
+            definition=args.definition,
             examples=args.examples or [],
             related_words=args.related_words or [],
         )
@@ -74,8 +71,7 @@ def main(override_args: list[str] | None = None) -> int:
             word=args.word,
             index=args.index,
             part_of_speech=args.part_of_speech,
-            short_definition=args.short_definition or "",
-            long_definition=args.long_definition or [],
+            definition=args.definition or "",
             examples=args.examples or [],
             related_words=args.related_words or [],
         )
