@@ -30,7 +30,7 @@ def run():
 
     args = parser.parse_args(sys.argv[1:] or ["--help"])
 
-    words_dir = args.words_dir or Path(__file__).resolve().parent / "words"
+    words_dir = args.words_dir or Path.home() / ".espanol-encuentro" / "words"
     words_dir.mkdir(parents=True, exist_ok=True)
 
     if args.mode == "lookup":

@@ -3,12 +3,12 @@ from shutil import copytree
 
 import pytest
 from espanol_encuentro.__main__ import main
-from espanol_encuentro.constants import default_words_directory
+from espanol_encuentro.constants import sample_words_directory
 from espanol_encuentro.entry import Entry, read_json_entries, write_json_entries
 
 
 def dictionary_words() -> list[str]:
-    directory = default_words_directory()
+    directory = sample_words_directory()
     return sorted(f.name[:-5] for f in directory.iterdir() if f.suffix == ".json")
 
 
@@ -23,7 +23,7 @@ def assert_entries_equal(expected: list[Entry], actual: list[Entry]) -> None:
 
 @pytest.mark.parametrize("word", dictionary_words())
 def test_serialization_roundtrip(word: str, tmp_path: Path) -> None:
-    filename = default_words_directory() / f"{word}.json"
+    filename = sample_words_directory() / f"{word}.json"
     entries = read_json_entries(filename)
     assert len(entries) >= 1, f"Expected at least one entry for word '{word}'"
 
@@ -39,7 +39,7 @@ def string_for_command_line(raw: str) -> str:
 
 @pytest.mark.parametrize("word", dictionary_words())
 def test_repopulate_entry(word: str, tmp_path: Path) -> None:
-    entries = read_json_entries(default_words_directory() / f"{word}.json")
+    entries = read_json_entries(sample_words_directory() / f"{word}.json")
     for entry in entries:
         command_line = [
             "add",
@@ -71,7 +71,7 @@ def test_repopulate_entry(word: str, tmp_path: Path) -> None:
 
 def test_sanitise_repo_words(tmp_path: Path) -> None:
     words_dir = tmp_path / "words"
-    copytree(default_words_directory(), words_dir)
+    copytree(sample_words_directory(), words_dir)
 
     files = sorted(words_dir.iterdir())
     assert len(files) > 0
