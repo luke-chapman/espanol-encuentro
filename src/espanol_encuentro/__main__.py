@@ -5,7 +5,7 @@ from typing import get_args
 
 from espanol_encuentro.constants import default_words_directory
 from espanol_encuentro.entry import PartOfSpeech
-from espanol_encuentro.operations import add, delete, search, lookup, modify, sanitise
+from espanol_encuentro.operations import add, delete, lookup, modify, search
 
 
 def main(override_args: list[str] | None = None) -> int:
@@ -42,9 +42,6 @@ def main(override_args: list[str] | None = None) -> int:
     modify_parser.add_argument("--related-words", "-r", nargs="*")
     modify_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
 
-    sanitise_parser = subparsers.add_parser("sanitise")
-    sanitise_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
-
     list_parser = subparsers.add_parser("search")
     list_parser.add_argument("--starts-with", "-d")
     list_parser.add_argument("--part-of-speech", "-p", choices=get_args(PartOfSpeech), nargs="*")
@@ -80,8 +77,6 @@ def main(override_args: list[str] | None = None) -> int:
             examples=args.examples or [],
             related_words=args.related_words or [],
         )
-    elif args.mode == "sanitise":
-        sanitise(directory)
     else:
         raise ValueError(f"Invalid mode '{args.mode}'")
 

@@ -1,7 +1,6 @@
-from collections import defaultdict
 from pathlib import Path
 
-from espanol_encuentro.entry import Entry, PartOfSpeech, get_entries, read_json_entries, write_json_entries
+from espanol_encuentro.entry import Entry, PartOfSpeech, get_entries, write_json_entries
 
 
 def lookup(directory: Path, word: str) -> None:
@@ -85,23 +84,3 @@ def modify(
     entries[index] = entry.format()
 
     write_json_entries(entries, directory / f"{word}.json")
-
-
-def sanitise(directory: Path) -> None:
-    filename_to_entries: dict[Path, list[Entry]] = {}
-    word_relationships: dict[str, list[str]] = defaultdict(list)
-
-    for filename in sorted(directory.iterdir()):
-        if filename.suffix != ".json":
-            continue
-
-        entries = read_json_entries(filename)
-        filename_to_entries[filename] = entries
-        for entry in entries:
-            word_relationships[entry.word].extend(entry.related_words)
-            for related_word in entry.related_words:
-                word_relationships[related_word].append(entry.word)
-
-    for filename, entries in filename_to_entries.items():
-        new_entries = [e.model_copy(update={"related_words": sorted(set(word_relationships[e.word]))}) for e in entries]
-        write_json_entries(new_entries, filename, verbose=entries != new_entries)
