@@ -5,7 +5,7 @@ from typing import get_args
 
 from espanol_encuentro.constants import default_words_directory
 from espanol_encuentro.entry import PartOfSpeech
-from espanol_encuentro.operations import add, delete, do_list, lookup, modify, sanitise
+from espanol_encuentro.operations import add, delete, search, lookup, modify, sanitise
 
 
 def main(override_args: list[str] | None = None) -> int:
@@ -23,11 +23,6 @@ def main(override_args: list[str] | None = None) -> int:
     delete_parser = subparsers.add_parser("delete")
     delete_parser.add_argument("word", help="The Spanish word to delete")
     delete_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
-
-    list_parser = subparsers.add_parser("list")
-    list_parser.add_argument("--starts-with", "-d")
-    list_parser.add_argument("--part-of-speech", "-p", choices=get_args(PartOfSpeech), nargs="*")
-    list_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
 
     lookup_parser = subparsers.add_parser("lookup")
     lookup_parser.add_argument("word", help="The Spanish word to lookup")
@@ -50,6 +45,11 @@ def main(override_args: list[str] | None = None) -> int:
     sanitise_parser = subparsers.add_parser("sanitise")
     sanitise_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
 
+    list_parser = subparsers.add_parser("search")
+    list_parser.add_argument("--starts-with", "-d")
+    list_parser.add_argument("--part-of-speech", "-p", choices=get_args(PartOfSpeech), nargs="*")
+    list_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
+
     args = parser.parse_args(override_args or sys.argv[1:] or ["--help"])
 
     directory = args.words_dir or default_words_directory()
@@ -65,8 +65,8 @@ def main(override_args: list[str] | None = None) -> int:
             examples=args.examples or [],
             related_words=args.related_words or [],
         )
-    elif args.mode == "list":
-        do_list(directory, args.starts_with or "", args.part_of_speech or [])
+    elif args.mode == "search":
+        search(directory, args.starts_with or "", args.part_of_speech or [])
     elif args.mode == "delete":
         lookup(directory, args.word)
         delete(directory, args.word)

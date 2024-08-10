@@ -1,10 +1,10 @@
 # espanol-encuentro
 
-*espanol-encuentro* lets you build and query a dictionary from one language to another, e.g. from Spanish to English. It's intended as a tool to help you grow your vocabulary in a foreign language. A secondary purpose of *espanol-encuentro* is as a demonstration of the Python programming language for beginners.
+*espanol-encuentro* lets you build and query a dictionary from Spanish to English. It's intended as a tool to help you grow your vocabulary in a foreign language. A secondary purpose is to demonstrate the Python programming language for beginners.
 
 ## Installation
 ### Beginner user
-*For those unfamiliar with 'git' and 'virtual environments'*
+*For those unfamiliar with 'git' and 'virtual environments', there is a simplified version of this app contained within a single file you can use*
 
 1. Install *Python* on your computer: https://www.python.org/downloads/
 2. Download this file *example.py* onto your computer: https://github.com/luke-chapman/espanol-encuentro/blob/master/example.py
@@ -26,10 +26,7 @@ options:
 ```
 6. You are now in a position to run the program! See the section *How to use it*
 
-Notes:
-- Writing foolproof instructions for running this program on your computer is hard because of the wide variety of computer specifications and configurations out there
-- If you get an error you don't understand, ChatGPT may well be able to help
-- In general, I recommend a great degree of patience if you want to get into programming...
+Notes that writing foolproof instructions for running this program on your computer is hard because of the wide variety of computer specifications and configurations out there. If you get an error you don't understand, ChatGPT may well be able to help
 
 ### Advanced user
 *For those who know the basics of 'git' and 'virtual environments'*
@@ -39,64 +36,85 @@ Notes:
 git clone https://github.com/luke-chapman/espanol-encuentro
 pip install -e espanol-encuentro
 ```
-The app is then invoked from the command line with a command starting:
-```
-# Commands begin with 'espanol-encuentro'
-espanol-encuentro list
+The app is then invoked from the command line with a command starting `espanol-encuentro` or the shorthand `ee`.
 
-# Or they can begin with the shorter 'ee'
-ee list
-```
 ## Scope of functionality
-*espanol-encuentro* allows you to build your own Spanish-English dictionary with new words as you learn them. You can then come back and look them up or revise words you've recently encountered for the first time.
+*espanol-encuentro* lets you build up a Spanish-English dictionary of Spanish words as you learn them.
 
-*espanol-encuentro* is not intended to be a complete dictionary or language learning resource in any way. If you want to learn Spanish grammar and roll your Spanish `r`s like a native, there are numerous other resources that can help with this.
+You can `add`, `delete` and `modify` entries in the dictionary. You can also `lookup` a single entry, as well as doing a `search` for certain types of words in the dictionary
 
-I limit my use of *espagnol-encuentro* to slowly growing my vocabulary of Spanish nouns, verbs and adjectives.
+I limit my use of *espagnol-encuentro* to slowly growing my vocabulary of Spanish nouns, verbs and adjectives. For a more comprehensive dictionary or language learning resource there are many options available online (I use  [SpanishDict](https://www.spanishdict.com/)).
 
 ## How to use it
-If you used the basic installation instructions, the below commands should start `python C:\Users\lrrch\Downloads\example.py` rather than `ee`.
+*If you used the basic installation instructions, the below commands should start `python C:\Users\lrrch\Downloads\example.py` rather than `ee`.*
 
 ### add
 Let's add the word *comida* to the dictionary.
 ```
-ee add comida --part-of-speech noun_f --definition food --examples "Me gusta la comida (I like the food)"
+ee add comida --part-of-speech noun_f --definition food
 ```
 And another word: *comer*
 ```
-ee add comer --part-of-speech verb --defininition "to eat" --examples "Necesito comer (I need to eat)" --related-words comida
+ee add comer --part-of-speech verb --definition "to eat" --examples "Necesito comer (I need to eat)" --related-words comida
 ```
 You must provide a *part of speech* and *definition* for the word. *Examples* and *related words* are optional.
 
+You can add the same word more than once if it has multiple definitions. For example, the Spanish verb `esperar` means both *to wait* and *to hope*, so we can run both of the following commands:
+```
+ee add esperar --part-of-speech verb --definition "to wait" --examples "Estoy esperando el bus (I'm waiting for the bus)"
+ee add esperar --part-of-speech verb --definition "to hope" --examples "Esperamos que llueva mañana (We hope it rains tomorrow)" --related-words esperanza
+```
+
 ### lookup
-Lookup the word *comida* in the dictionary. You should see the above definition printed
+Let's lookup the word *comida* in the dictionary. We should see the above definition printed
 ```
 ee lookup comida
-```
-gives
-```
+
 {
   "word": "comida",
   "part_of_speech": "noun_f",
-  "definition": "food",
+  "definition": "food"
+}
+```
+If a word has multiple definitions they will all be shown, e.g.:
+```
+ee lookup esperar
+
+{
+  "word": "esperar",
+  "part_of_speech": "verb",
+  "definition": "to wait",
   "examples": [
-    "Me gusta la comida (I like the food)"
+    "Estoy esperando el bus (I'm waiting for the bus)"
+  ]
+}
+
+{
+  "word": "esperar",
+  "part_of_speech": "verb",
+  "definition": "to hope",
+  "examples": [
+    "Esperamos que llueva mañana (We hope it rains tomorrow)"
+  ],
+  "related_words": [
+    "esperanza"
   ]
 }
 ```
 
-### list
-List all words
+
+### search
+Search for all words in the dictionary
 ```
-ee list
+ee search
 ```
-List all words in the dictionary beginning with c
+Search for all words in the dictionary beginning with c
 ```
-ee list --starts-with c
+ee search --starts-with c
 ```
-List all nouns in the dictionary (feminine and masculine)
+Search for all nouns in the dictionary (feminine and masculine)
 ```
-ee list --part-of-speech noun_f noun_m
+ee search --part-of-speech noun_f noun_m
 ```
 
 ### delete

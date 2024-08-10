@@ -29,12 +29,12 @@ def add(
     if len(entries) > 0:
         print(f"{len(entries)} entries already exist for '{word}'; appending new entry")
     entries.append(entry)
-    entries = sorted(e.format() for e in entries)
+    entries = [e.format() for e in entries]
     write_json_entries(entries=entries, filename=directory / f"{word}.json")
     print(f"Successfully added an entry for '{entry.word}' to the lookup file")
 
 
-def do_list(directory: Path, starts_with: str, part_of_speech: list[str]) -> None:
+def search(directory: Path, starts_with: str, part_of_speech: list[str]) -> None:
     words = sorted(d.name[:-5] for d in directory.iterdir() if d.suffix == ".json")
     if starts_with:
         words = [w for w in words if w.startswith(starts_with)]

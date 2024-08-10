@@ -20,13 +20,13 @@ def run():
     delete_parser.add_argument("word", help="The Spanish word to delete")
     delete_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
 
-    list_parser = subparsers.add_parser("list")
-    list_parser.add_argument("--starts-with", "-d")
-    list_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
-
     lookup_parser = subparsers.add_parser("lookup")
     lookup_parser.add_argument("word", help="The Spanish word to lookup")
     lookup_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
+
+    list_parser = subparsers.add_parser("search")
+    list_parser.add_argument("--starts-with", "-d")
+    list_parser.add_argument("--words-dir", type=Path, help="Directory containing json files for each word")
 
     args = parser.parse_args(sys.argv[1:] or ["--help"])
 
@@ -54,7 +54,7 @@ def run():
         with word_json.open("w", encoding="utf-16") as w:
             json.dump(entry, w, indent=2, ensure_ascii=False)
         print(f"Wrote entry for '{args.word}' to {word_json}")
-    elif args.mode == "list":
+    elif args.mode == "search":
         words = sorted(d.name[:-5] for d in words_dir.iterdir() if d.suffix == ".json")
         if args.starts_with:
             words = [w for w in words if w.startswith(args.starts_with)]

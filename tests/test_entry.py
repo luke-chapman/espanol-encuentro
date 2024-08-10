@@ -3,8 +3,11 @@ from shutil import copytree
 
 import pytest
 from espanol_encuentro.__main__ import main
-from espanol_encuentro.constants import sample_words_directory
 from espanol_encuentro.entry import Entry, read_json_entries, write_json_entries
+
+
+def sample_words_directory() -> Path:
+    return Path(__file__).resolve().parent.parent.parent / "example_words"
 
 
 def dictionary_words() -> list[str]:

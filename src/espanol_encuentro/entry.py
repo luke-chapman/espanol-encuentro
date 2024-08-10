@@ -21,11 +21,6 @@ class Entry(BaseModel):
     def __str__(self) -> str:
         return _json_dump(self.model_dump(exclude_defaults=True))
 
-    def __lt__(self, other):
-        tuple_self = (self.word, self.part_of_speech, self.definition)
-        tuple_other = (other.word, other.part_of_speech, other.definition)
-        return tuple_self < tuple_other
-
     @staticmethod
     def __strip_quotes(raw: str) -> str:
         return raw.strip("\"'")
