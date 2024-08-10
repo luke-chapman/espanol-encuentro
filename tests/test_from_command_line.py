@@ -23,7 +23,7 @@ def run_command(command: list[str], invocation: Invocation, words_dir: Path | No
 @pytest.mark.parametrize("invocation", get_args(Invocation))
 def test_help(invocation: Invocation) -> None:
     output = run_command(["--help"], invocation, None)
-    for mode in ("lookup", "add", "list", "delete"):
+    for mode in ("lookup", "add", "search", "delete"):
         assert mode in output.stdout
 
 
@@ -64,7 +64,7 @@ def test_one_word_end_to_end(invocation: Invocation, tmp_path: Path) -> None:
     assert "preferimos la comida italiana" in lookup_output.stdout
 
     for starts_with in ("c", "d"):
-        list_output = run_command(["list", "--starts-with", starts_with], invocation, words_dir)
+        list_output = run_command(["search", "--starts-with", starts_with], invocation, words_dir)
         if starts_with == "c":
             assert "comida" in list_output.stdout
         else:

@@ -38,7 +38,6 @@ format = [
 ]
 test = "pytest {args: tests}"
 yeehaw = [
-  "ee sanitise",
   "hatch run format",
   "hatch run lint",
   "hatch run test",

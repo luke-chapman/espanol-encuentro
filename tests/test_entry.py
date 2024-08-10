@@ -1,10 +1,12 @@
 from pathlib import Path
-from shutil import copytree
 
 import pytest
 from espanol_encuentro.__main__ import main
-from espanol_encuentro.constants import sample_words_directory
 from espanol_encuentro.entry import Entry, read_json_entries, write_json_entries
+
+
+def sample_words_directory() -> Path:
+    return Path(__file__).resolve().parent / "example_words"
 
 
 def dictionary_words() -> list[str]:
@@ -67,50 +69,3 @@ def test_repopulate_entry(word: str, tmp_path: Path) -> None:
     new_file = tmp_path / "words" / f"{word}.json"
     new_entries = read_json_entries(new_file)
     assert_entries_equal(entries, new_entries)
-
-
-def test_sanitise_repo_words(tmp_path: Path) -> None:
-    words_dir = tmp_path / "words"
-    copytree(sample_words_directory(), words_dir)
-
-    files = sorted(words_dir.iterdir())
-    assert len(files) > 0
-
-    command_line = [
-        "sanitise",
-        "--words-dir",
-        str(words_dir),
-    ]
-    main(command_line)
-
-    sanitised_files = sorted(words_dir.iterdir())
-    assert files == sanitised_files
-
-
-# This test adds four words one by one and uses the "sanitise" command
-# to fill in the other direction of links in between them
-#
-# comida (food) ---- bebida (a drink)
-#   |                  |
-#   |                  |
-# comer (to eat) --- beber (to drink)
-#
-def test_sanitise_example_words(tmp_path: Path) -> None:
-    words_dir = tmp_path / "words"
-    commands = (
-        ["add", "comida", "-p", "noun_f", "-d", "food", "-r", "comer", "bebida"],
-        ["add", "bebida", "-p", "noun_f", "-d", "drink"],
-        ["add", "comer", "-p", "verb", "-d", string_for_command_line("to eat"), "-r", "beber"],
-        ["add", "beber", "-p", "verb", "-d", string_for_command_line("to drink"), "-r", "bebida"],
-        ["sanitise"],
-    )
-
-    for command in commands:
-        main(command + ["--words-dir", str(words_dir)])
-
-    json_files = sorted(words_dir.iterdir())
-    entries = {jf.with_suffix("").name: read_json_entries(jf) for jf in json_files}
-    assert entries["beber"][0].related_words == ["bebida", "comer"]
-    assert entries["bebida"][0].related_words == ["beber", "comida"]
-    assert entries["comer"][0].related_words == ["beber", "comida"]
-    assert entries["comida"][0].related_words == ["bebida", "comer"]

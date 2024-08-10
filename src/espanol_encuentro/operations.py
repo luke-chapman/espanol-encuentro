@@ -1,7 +1,6 @@
-from collections import defaultdict
 from pathlib import Path
 
-from espanol_encuentro.entry import Entry, PartOfSpeech, get_entries, read_json_entries, write_json_entries
+from espanol_encuentro.entry import Entry, PartOfSpeech, get_entries, write_json_entries
 
 
 def lookup(directory: Path, word: str) -> None:
@@ -29,12 +28,12 @@ def add(
     if len(entries) > 0:
         print(f"{len(entries)} entries already exist for '{word}'; appending new entry")
     entries.append(entry)
-    entries = sorted(e.format() for e in entries)
+    entries = [e.format() for e in entries]
     write_json_entries(entries=entries, filename=directory / f"{word}.json")
     print(f"Successfully added an entry for '{entry.word}' to the lookup file")
 
 
-def do_list(directory: Path, starts_with: str, part_of_speech: list[str]) -> None:
+def search(directory: Path, starts_with: str, part_of_speech: list[str]) -> None:
     words = sorted(d.name[:-5] for d in directory.iterdir() if d.suffix == ".json")
     if starts_with:
         words = [w for w in words if w.startswith(starts_with)]
@@ -85,23 +84,3 @@ def modify(
     entries[index] = entry.format()
 
     write_json_entries(entries, directory / f"{word}.json")
-
-
-def sanitise(directory: Path) -> None:
-    filename_to_entries: dict[Path, list[Entry]] = {}
-    word_relationships: dict[str, list[str]] = defaultdict(list)
-
-    for filename in sorted(directory.iterdir()):
-        if filename.suffix != ".json":
-            continue
-
-        entries = read_json_entries(filename)
-        filename_to_entries[filename] = entries
-        for entry in entries:
-            word_relationships[entry.word].extend(entry.related_words)
-            for related_word in entry.related_words:
-                word_relationships[related_word].append(entry.word)
-
-    for filename, entries in filename_to_entries.items():
-        new_entries = [e.model_copy(update={"related_words": sorted(set(word_relationships[e.word]))}) for e in entries]
-        write_json_entries(new_entries, filename, verbose=entries != new_entries)

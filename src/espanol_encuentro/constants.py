@@ -15,7 +15,3 @@ def default_words_directory() -> Path:
     words = root / ".espanol-encuentro" / "words"
     words.mkdir(parents=True, exist_ok=True)
     return words
-
-
-def sample_words_directory() -> Path:
-    return Path(__file__).resolve().parent.parent.parent / "sample_words"
