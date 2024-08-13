@@ -1,6 +1,6 @@
 # Section 1 - imports
 # Let's re-use some pre-existing tools to make life easier for ourselves
-# 
+#
 # For example, we're going to use the 'json' Python library to interact with data in the json format
 # json is a beautiful, simple and ubiquitous data format - if you're interested, see https://www.json.org/json-en.html
 
@@ -9,6 +9,7 @@ import sys
 from argparse import ArgumentParser
 from pathlib import Path
 
+
 # Section 2 - argument parsing
 # Our program will be invoked by command lines such as:
 #
@@ -16,8 +17,7 @@ from pathlib import Path
 #
 # We need to tell the program what the arguments in these command lines mean
 # 'ArgumentParser' also emits useful help messages or error messages to help the user
-
-
+#
 def run():
     parser = ArgumentParser()
     subparsers = parser.add_subparsers(dest="mode")
@@ -48,19 +48,19 @@ def run():
     #
     # espanol-encuentro stores the words in a folder on your computer
     # Let's decide what that folder is and create it if it doesn't exist
-
+    #
     words_dir = args.words_dir or Path.home() / ".espanol-encuentro" / "words"
     words_dir.mkdir(parents=True, exist_ok=True)
 
     # Section 4: if-else statements
-    #     
+    #
     # What operation are we doing? Either 'add', 'lookup', 'search' or 'delete'
-    # 
+    #
     if args.mode == "add":
         # Section 4a - 'add' operation
-        # 
+        #
         # We create a 'dictionary' object called 'entry' and write it to a json file
-        # 
+        #
         entry = {
             "word": args.word,
             "part_of_speech": args.part_of_speech,
@@ -78,9 +78,9 @@ def run():
 
     elif args.mode == "lookup":
         # Section 4b - 'lookup' operation
-        # 
+        #
         # Look for the json file and print its contents if it exists
-        # 
+        #
         word_json = words_dir / f"{args.word}.json"
         if word_json.is_file():
             print(word_json.read_text(encoding="utf-16"))
@@ -89,10 +89,10 @@ def run():
 
     elif args.mode == "search":
         # Section 4c - 'search' operation
-        # 
+        #
         # Start by listing all the files in the words directory
         # If we specified --starts-with, filter this list accordingly
-        # 
+        #
         words = sorted(d.name[:-5] for d in words_dir.iterdir() if d.suffix == ".json")
         if args.starts_with:
             words = [w for w in words if w.startswith(args.starts_with)]
@@ -104,9 +104,9 @@ def run():
 
     elif args.mode == "delete":
         # Section 4d - 'delete' operation
-        # 
+        #
         # If there's a file for the word in question, delete it
-        # 
+        #
         word_json = words_dir / f"{args.word}.json"
         if word_json.is_file():
             word_json.unlink()
@@ -116,12 +116,14 @@ def run():
 
     else:
         # Section 5 - error handling
-        # 
+        #
         # What if the mode isn't add, lookup, search or delete?
         # Let's report this error back to the user (comedy link: https://www.youtube.com/watch?v=x0YGZPycMEU)
+        #
         raise ValueError(f"Unexpected mode '{args.mode}'")
 
 
 # Section 6 - a tiny bit of magic to start and stop the program
+#
 if __name__ == "__main__":
     sys.exit(run())
