@@ -16,10 +16,10 @@
 5. If all has gone well you should see the following help message from the program:
 ```
 python C:\Users\lrrch\Downloads\example.py
-usage: example.py [-h] {add,delete,list,lookup} ...
+usage: example.py [-h] {add,delete,lookup,search} ...
 
 positional arguments:
-  {add,delete,list,lookup}
+  {add,delete,lookup,search}
 
 options:
   -h, --help            show this help message and exit
