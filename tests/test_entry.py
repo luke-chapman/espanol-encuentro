@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import pytest
+
 from espanol_encuentro.__main__ import main
 from espanol_encuentro.entry import Entry, read_json_entries, write_json_entries
 
